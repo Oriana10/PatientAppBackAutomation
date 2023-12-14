@@ -1,0 +1,13 @@
+# Instalation Requirements
+
+# Getting Module´s Plural
+pip install pattern
+pip install inflect
+
+# Path Variables
+#C:\Users\use\AppData\Local\Programs\Python\Python39\Scripts
+#C:\Users\use\AppData\Local\Programs\Python\Python39
+
+# Python Formatter VSC
+pip install autopep8
+pip install pylint
