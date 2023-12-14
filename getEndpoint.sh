@@ -7,12 +7,12 @@ if [ $# -eq 0 ]; then
 fi
 
 # Nombre del módulo
-nombre_modulo=$1
-nombre_modulo_plural=$2
-nombre_modulo_genero=$3
+nombre_modulo_plural=$1
+nombre_modulo_singular=$2
+nombre_modulo_genero_singular=$3
 
 # Ruta al archivo get.py
-archivo_get="$nombre_modulo/endpoints/get.py"
+archivo_get="$nombre_modulo_plural/endpoints/get.py"
 
 # Generar el enspoint y moverlo al archivo get.py
 {
@@ -22,8 +22,8 @@ from sqlalchemy.orm import Session
 from cachetools import cached, TTLCache
 from functions.db import get_db
 from resources.log.logger import logger
-from service.modules.$nombre_modulo.functions.crud import read
-from service.modules.$nombre_modulo.views import schemas
+from service.modules.$nombre_modulo_plural.functions.crud import read
+from service.modules.$nombre_modulo_plural.views import schemas
 
 router = APIRouter()
 
@@ -32,7 +32,7 @@ cache = TTLCache(
     ttl=600
 )
 
-@router.get("/", tags=["$nombre_modulo"], status_code=200, response_model=list[schemas.${nombre_modulo_plural^}])
+@router.get("/", tags=["$nombre_modulo_plural"], status_code=200, response_model=list[schemas.${nombre_modulo_plural^}])
 def get_$nombre_modulo_plural(skip: int = None,
                 limit: int = None,
                 db: Session = Depends(get_db),
@@ -46,19 +46,19 @@ def get_$nombre_modulo_plural(skip: int = None,
 
     return obtener_$nombre_modulo_plural()
 
-@router.get("/{${nombre_modulo}_id}", tags=["$nombre_modulo"], status_code=200, response_model=schemas.${nombre_modulo_plural^})
-def get_$nombre_modulo(${nombre_modulo}_id: int, db: Session = Depends(get_db)):
+@router.get("/{${nombre_modulo_singular}_id}", tags=["$nombre_modulo_plural"], status_code=200, response_model=schemas.${nombre_modulo_plural^})
+def get_$nombre_modulo_singular(${nombre_modulo_singular}_id: int, db: Session = Depends(get_db)):
 
     @cached(cache)
-    def obtener_$nombre_modulo(${nombre_modulo}Id: int):
-        $nombre_modulo = read.get_$nombre_modulo(db, ${nombre_modulo}Id).first()
-        if not $nombre_modulo:
-            logger.warning(f'No se pudo consultar $nombre_modulo_genero $nombre_modulo ID {${nombre_modulo}Id} porque no existe')
-            raise HTTPException(status_code=404, detail='No se pudo encontrar $nombre_modulo_genero $nombre_modulo')
-        logger.trace(f'Se buscó $nombre_modulo_genero $nombre_modulo con el ID {${nombre_modulo}Id}')
-        return $nombre_modulo
+    def obtener_$nombre_modulo_singular(${nombre_modulo_singular}Id: int):
+        $nombre_modulo_singular = read.get_$nombre_modulo_singular(db, ${nombre_modulo_singular}Id).first()
+        if not $nombre_modulo_singular:
+            logger.warning(f'No se pudo consultar $nombre_modulo_genero_singular $nombre_modulo_singular ID {${nombre_modulo_singular}Id} porque no existe')
+            raise HTTPException(status_code=404, detail='No se pudo encontrar $nombre_modulo_genero_singular $nombre_modulo_singular')
+        logger.trace(f'Se buscó $nombre_modulo_genero_singular $nombre_modulo_singular con el ID {${nombre_modulo_singular}Id}')
+        return $nombre_modulo_singular
 
-    return obtener_$nombre_modulo(${nombre_modulo}_id)
+    return obtener_$nombre_modulo_singular(${nombre_modulo_singular}_id)
 EOF
 } > "$archivo_get"
 

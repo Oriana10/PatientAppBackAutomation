@@ -5,10 +5,10 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-nombre_modulo=$1
-nombre_modulo_plural=$2
-nombre_modulo_genero=$3
-archivo_read="$nombre_modulo/functions/crud/read.py"
+nombre_modulo_plural=$1
+nombre_modulo_singular=$2
+nombre_modulo_genero_singular=$3
+archivo_read="$nombre_modulo_plural/functions/crud/read.py"
 
 {
   cat <<EOF
@@ -22,7 +22,7 @@ def get_$nombre_modulo_plural(db: Session, filters: dict = None, skip: int = 0, 
             query = query.filter(getattr(models.${nombre_modulo_plural^}, key).like(f'%{value}%'))
     return query.order_by(models.${nombre_modulo_plural^}.id).offset(skip).limit(limit)
 
-def get_$nombre_modulo(db: Session, ${nombre_modulo}_id: int):
-    return db.query(models.${nombre_modulo_plural^}).filter(models.${nombre_modulo_plural^}.id == ${nombre_modulo}_id)
+def get_$nombre_modulo_singular(db: Session, ${nombre_modulo_singular}_id: int):
+    return db.query(models.${nombre_modulo_plural^}).filter(models.${nombre_modulo_plural^}.id == ${nombre_modulo_singular}_id)
 EOF
 } > "$archivo_read"
