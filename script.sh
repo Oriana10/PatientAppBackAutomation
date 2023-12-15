@@ -7,8 +7,12 @@ nombre_modulo_plural=$(sh ./createFolders.sh)
 # Get word derivatives from the module to generate a correct grammar in the subsequent code.
 echo "Searching for correct syntax for code generation..."
 nombre_modulo_singular=$(python ./getSingular.py $nombre_modulo_plural)
-#nombre_modulo_genero_singular=$(python ./getGrammaticalGender.py $nombre_modulo_plural) # queda corregir este codigo
+#nombre_modulo_genero_singular=$(python ./getGrammaticalGender.py $nombre_modulo_plural) # doesnt work :(
 read -p "Singular article: " nombre_modulo_genero_singular
+
+# Create Main Module
+echo "Creating main module..."
+sh ./mainModule.sh $nombre_modulo_plural
 
 # Create Endpoints
 echo "Creating endpoints..."
