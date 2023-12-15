@@ -12,7 +12,7 @@ read -p "Singular article: " nombre_modulo_genero_singular
 
 # Create Main Module
 echo "Creating main module..."
-sh ./mainModule.sh $nombre_modulo_plural
+sh ./createMain.sh $nombre_modulo_plural
 
 # Create Endpoints
 echo "Creating endpoints..."
